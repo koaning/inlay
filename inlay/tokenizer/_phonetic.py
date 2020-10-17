@@ -15,13 +15,13 @@ class PhoneticTokenizer:
                    "nysiis": jellyfish.nysiis}
         self.method = methods[kind]
         self.hyphen = hyphen
+        self.cv = CountVectorizer()
+        self.tokenizer = self.cv.build_tokenizer()
         if hyphen:
             self.dic = pyphen.Pyphen(lang=hyphen)
             self.method = lambda d: self.dic.inserted(methods[kind](d)).split("-", -1)
 
     def fit(self, X, y=None):
-        self.cv_ = CountVectorizer()
-        self.tokenizer = self.cv_.build_tokenizer()
         return self
 
     def encode(self, x):
