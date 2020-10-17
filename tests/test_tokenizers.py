@@ -6,16 +6,12 @@ from inlay.tokenizer import SlidingWindowTokenizer, SentencePieceTokenizer, Hyph
 from inlay.tokenizer.common import flatten
 
 
-trainable_tokenizers = [
-
-]
-
 all_tokenizers = flatten([
     [SlidingWindowTokenizer(ngram_range=(n, n)) for n in range(3)],
     [HyphenTokenizer(lang=l) for l in ['nl_NL', 'en_GB']],
     [PhoneticTokenizer(kind=k) for k in ["soundex", "metaphone", "nysiis"]],
     [PhoneticTokenizer(kind=k, hyphen="nl_NL") for k in ["soundex", "metaphone", "nysiis"]],
-    [SentencePieceTokenizer(model_type=t, vocab_size=500) for t in ["word", "bpe", "unigram", "char"]]
+    [SentencePieceTokenizer(model_type=t, vocab_size=500, prefix="testfoo") for t in ["word", "bpe", "unigram", "char"]]
 ])
 
 
