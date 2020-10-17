@@ -16,7 +16,6 @@ class GensimEmbedder:
         self.prefix = prefix
 
     def fit(self, X, y=None):
-        mod_name = f"{self.prefix}-{self.size}-{self.window}-{self.iter}.kv"
         tokens = self.tokenizer.transform(X)
         self.model_ = Word2Vec(sentences=tokens,
                                size=self.size,
