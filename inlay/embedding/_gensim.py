@@ -25,17 +25,20 @@ class GensimEmbedder:
                                workers=self.workers)
         return self
 
+    def encode(self, x):
+        tokens = self.tokenizer.transform([x])
+        vectors = np.zeros((len(tokens[0]), self.model_.wv.vector_size))
+        for idx_t, tok in enumerate(tokens[0]):
+            try:
+                vectors[idx_t] = self.model_.wv[tok]
+            except KeyError:
+                pass
+        return np.array(vectors).sum(axis=0)
+
     def transform(self, X, y=None):
         result = np.zeros((len(X), self.model_.wv.vector_size))
         for idx_x, x in enumerate(X):
-            tokens = self.tokenizer.transform([x])
-            vectors = np.zeros((len(tokens[0]), self.model_.wv.vector_size))
-            for idx_t, tok in enumerate(tokens[0]):
-                try:
-                    vectors[idx_t] = self.model_.wv[tok]
-                except KeyError:
-                    pass
-            result[idx_x] = np.array(vectors).sum(axis=0)
+            result[idx_x] = self.encode(x)
         return result
 
     @classmethod
