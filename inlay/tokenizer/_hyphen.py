@@ -7,10 +7,10 @@ from .common import flatten
 class HyphenTokenizer:
     def __init__(self, lang="en_GB"):
         self.dic = pyphen.Pyphen(lang=lang)
-
-    def fit(self, X, y=None):
         self.cv_ = CountVectorizer()
         self.tokenizer = self.cv_.build_tokenizer()
+
+    def fit(self, X, y=None):
         return self
 
     def encode(self, x):
